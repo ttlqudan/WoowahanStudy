@@ -19,4 +19,5 @@
 - 두번째 날 (3,4장)
     - 발표진행 : 장재정님
         - [3장](./ch03.%EC%A0%80%EC%9E%A5%EC%86%8C%EC%99%80%20%EA%B2%80%EC%83%89/jaejeong1/summary.md)
-        - [4장](./ch04.%EB%B6%80%ED%98%B8%EC%99%80%20%EB%B0%9C%EC%A0%84/jaejeong1/summary.md)
+    - 발표진행 : 김민석님
+        - [4장](./ch04.%EB%B6%80%ED%98%B8%EC%99%80%20%EB%B0%9C%EC%A0%84/minskim0327/summary.md)
