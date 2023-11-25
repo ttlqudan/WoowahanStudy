@@ -51,7 +51,7 @@ Read Commmitted는 다음을 보장한다
 
 
 ### 스냅숏 격리와 반복 읽기 (Repeatable Read)
-- NonRepeatable Read: Multi Read Transaction 실행 중에 Multi Write Transaction에서 데이터를 update and commit한 경우, Write Transaction이 시작되기 이전에 실행된 Read의 값이 옛날의 값을 가지고 있는 문제
+- NonRepeatable Read: Multi Read Transaction 실행 중에 Multi Write Transaction에서 데이터를 update and commit한 경우, Write Transaction이 시작되기 이전에 실행된 Read의 값이 옛날의 값을 가지고 있고, write 트랜잭션 이후에 Read한 값은 최신의 값을 가지고 있는 문제
   - 다시 Read하면 해결되지만, 이런 일시적인 비일관성을 감내할수 없는 경우가 있을 수 있다.
     - 백업: 일부는 이전 데이터, 일부는 최신 데이터 가지고 있으면 비일관성이 영속적이게 된다.
     - 분석 질의: 맞지 않는 결과를 만들수 있다.
@@ -65,14 +65,10 @@ Read Committed 에서는 NonReapeatable Read 문제를 방지할수 없다.
 #### 스냅숏 격리 구현
 - Write는 Read Committed와 동일하게 Row level lock 이용
 - reader never blocks writer, writer never blocks reader.
-- 객체마다 커밋된 여러 버전을 함께 유지 (다중 버전 동시성 제어, multi-version concurrency control, MVCC)
+- 객체마다 커밋된 여러 버전을 함께 유지 (다중 버전 동시성 제어, multi-version concurrency control, **MVCC**)
   - created_by: 각 row마다 그 row를 insert한 txId
   - deleted_by: update시 기존 데이터를 지우지 않고, deleted_by에 row를 update한 txId를 저장, 처음엔 nil
   - 삭제된 데이터에 접근이 필요한 데이터가 없어지면 garbage collection 프로세스가 삭제
-
-##### 일관된 스냅숏을 보는 가시성 규칙
-- 읽기를 실행하는 트랜잭션이 시작한 시점에 읽기 대상 객체를 생성한 트랜잭션이 이미 커밋된 상태였다.
-- 읽기 대상 객체가 삭제된 것으로 표시되지 않았다. 또는 삭제된 것으로 표시됐지만 읽기를 실행한 트랜잭션이 시작한 시점에 삭제 요청 트랜잭션이 아직 커밋되지 않았다.
 
 ### 갱신 손실 방지
 read committed와 스냅숏 격리는 동시 실행된 Write가 있을 때, Read 트랜잭션이 무엇을 볼수 있는지에 대해 보장하는 것이었다. 
@@ -88,7 +84,7 @@ read committed와 스냅숏 격리는 동시 실행된 Write가 있을 때, Read
 - Explicit lock: 애플리케이션에서 갱신할 객체를 명시적으로 잠금. 다른 트랜잭션에서 read-modify-write 시에 기다리게 한다. 
 - Automatically detecting lost updates: 앞선 두가지는 각 트랜잭션이 read-modify-write를 순차적으로 실행되도록 하는 것이었는데, 이 방법은 병렬적으로 실행을 허용하고, 트랜잭션 관리자가 lost-update를 발견하면 트랜잭션을 abort시키고 retry하도록 강제하는 방법
   - 장점은 데이터베이스가 스냅숏 격리와 결합해서 이 방법을 효율적으로 수행할 수 있다는 것
-- Compare-and-set: write 할때 처음 read 할때의 값도 같이 compare 해서 set 해서, lost update를 회피. (Optimistic Lock 이 이거 같은데?)
+- Compare-and-set: write 할때 처음 read 할때의 값도 같이 compare 해서 set 해서, lost update를 회피. (Optimistic Lock 같은 느낌?)
 
 #### 충돌 해소와 복제 
 lock과 compare-and-set 연산은 데이터의 최신 복사본이 하나라고 가정하고 있는데, multi-leader, leaderless replication에서는 여러 쓰기가 동시에 실행되고, 비동기적으로 복제되기 때문에 데이터의 최신 복사본이 하나라고 보장할 수 없다. 
@@ -104,7 +100,7 @@ LWW 충돌 해소 방법은 lost-update가 발생하기 쉽다. (유감스럽게
 
 
 ### 쓰기 스큐와 팬텀
-- 쓰기 스큐(write skew): 2개의 트랜잭션이 2개의 객체를 aggregation 하는 Read 후, 2개의 다른 객체를 갱신하여서 aggregation할때의 데이터의 제약성을 깨뜨리는 것
+- 쓰기 스큐(write skew): 트랜잭션이 무언가를 읽고 읽은 값을 기반으로 어떤 결정을 하고 그 결정을 데이터베이스에 쓴다. 그러나 쓰기를 실행하는 시점에 결정의 전제가 더이상 참이 아니다.
 
 #### 방지방법
 - 직렬성 격리
@@ -119,7 +115,7 @@ LWW 충돌 해소 방법은 lost-update가 발생하기 쉽다. (유감스럽게
 - 팬텀(phantom): 어떤 트랜잭션에서 실행한 Write가 다른 트랜잭션의 검색 질의 결과를 바꾸는 효과
 
 - 쓰기 스큐를 해결하기 위해서 앞서 말한것 처럼 트랜잭션이 의존하는 모든 로우를 명시적으로 잠그는 방법을 이용할수 있는데, 어떤 검색 조건에 부합하는 로우가 존재하지 않는지 확인하고 진행하는 경우에는 lock을 걸 row가 없다!!
-  - 충돌 구체화 방법을 이용해서 해결: row의 존재 유무가 아니라 lock을 걸수 있는 형태의 row를 미리 추가해놓는 것. 
+  - 충돌 구체화 방법을 이용해서 해결: lock을 걸수 있는 형태의 row를 미리 추가해놓는 것. 
 
 ## 직렬성
 - 직렬성 격리는 가장 강력한 격리 수준, 병렬로 실행되더라도 동시성 없이 한번에 하나씩 직렬로 실행될 때와 같도록 보장한다.
