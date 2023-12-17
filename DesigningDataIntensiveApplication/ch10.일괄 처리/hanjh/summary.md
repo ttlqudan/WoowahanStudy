@@ -95,7 +95,7 @@ bash 같은 유닉스 셸을 사용하면 작은 프로그램들을 가지고 �
     - 맵리듀스 작업의 병렬 실행은 파티셔닝을 기반으로 한다.
         - 맵 태스크 - 입력 파일의 블록수에 의해 결정, 리듀스 태스크 : 사용자가 설정
         
-        ![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/93f2a490-9bb2-4daf-a57e-ad251bd791ab/b5ce38ee-c706-40c0-ab16-50ec786ab04e/Untitled.png)
+        ![Untitled](10-1.png)
         
         - 그림에 안 나타나 있지만 입력 파일은 복제본이 존재하고, 복제본이 있는 장비의 cpu, ram 에 여유가 충분하다면 그 장비에서 작업이 수행됨(스케줄러에 의해). ⇒ 네트워크 부하 감소 및 지역성 증가
             - 맵 태스크와 리듀스 태스크가 동일한 장비에서 일어난다는 말인가?
@@ -115,11 +115,11 @@ bash 같은 유닉스 셸을 사용하면 작은 프로그램들을 가지고 �
 - **정렬 병합 조인**
     - 예시
         
-        ![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/93f2a490-9bb2-4daf-a57e-ad251bd791ab/032cbda7-0355-4143-aa5f-04c5b07d8000/Untitled.png)
+        ![Untitled](10-2.png)
         
         - 한 매퍼는 활동 이벤트를 훑어 사용자 ID를 키로, 활동 이벤트를 값으로 추출하고, 다른 매퍼는 사용자 데이터베이스를 훑어 사용자 ID를 키로 사용자 생일을 값으로 추출.
         
-        ![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/93f2a490-9bb2-4daf-a57e-ad251bd791ab/9387434c-5ca3-4a78-b8ad-e866f09593c6/Untitled.png)
+        ![Untitled](10-3.png)
         
         - 같은 사용자의 활동 이벤트와 사용자 레코드(그림 상의 dob) 는 같은 파티션으로들어간다.
         - 붉은 박스 안에 사용자 정보(dob), 활동 정보(url) 순으로 배치되게 하는 것을 보조정렬이라고 함.
