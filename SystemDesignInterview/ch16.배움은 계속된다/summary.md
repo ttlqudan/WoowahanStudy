@@ -70,41 +70,41 @@
 
 ## 회사별 엔지니어링 블로그
 
-- 구글
-- 그루폰
-- 깃허브
-- 넥스트도어
-- 넷플릭스
-- 도커
-- 드롭박스
-- 레딧
-- 링크드인
-- 믹스패널
-- 비트토렌트
-- 사운드클라우드
-- 섬텍
-- 세일즈포스
-- 쇼피파이
-- 슬랙
-- 스트라이프
-- 스포티파이
-- 아마존
-- 아사나
-- 아틀라시안
-- 야후
-- 에어비엔비
-- 우버
-- 옐프
-- 이베이
-- 인스타그램
-- 인스타카트
-- 줌
-- 큐오라
-- 클라우데라
-- 트위터
-- 페이팔
-- 핀터레스트
-- 하이스케일러빌리티
+- [구글](https://developers.googleblog.com)
+- [그루폰](https://medium.com/groupon-eng)
+- [깃허브](https://githubengineering.com/)
+- [넥스트도어](https://engblog.nextdoor.com/)
+- [넷플릭스](https://netflixtechblog.medium.com/)
+- [도커](https://www.docker.com/blog/)
+- [드롭박스](https://dropbox.tech/)
+- [레딧](https://www.redditinc.com/blog)
+- [링크드인](https://www.linkedin.com/blog/engineering)
+- [믹스패널](https://mixpanel.com/blog/)
+- [비트토렌트](https://engineering.bittorrent.com/)
+- [사운드클라우드](https://developers.soundcloud.com/blog/)
+- [섬텍](https://medium.com/thumbtack-engineering)
+- [세일즈포스](https://developer.salesforce.com/blogs)
+- [쇼피파이](https://shopify.engineering/)
+- [슬랙](https://slack.engineering/)
+- [스트라이프](https://stripe.com/blog/engineering)
+- [스포티파이](https://engineering.atspotify.com/)
+- [아마존](https://developer.amazon.com/apps-and-games/blogs)
+- [아사나](https://blog.asana.com/)
+- [아틀라시안](https://blog.developer.atlassian.com/)
+- [야후](https://yahooeng.tumblr.com/)
+- [에어비엔비](https://medium.com/airbnb-engineering)
+- [우버](https://www.uber.com/en-KR/blog/seoul/engineering/)
+- [옐프](https://engineeringblog.yelp.com/)
+- [이베이](https://innovation.ebayinc.com/tech/)
+- [인스타그램](https://instagram-engineering.com/)
+- [인스타카트](https://tech.instacart.com/)
+- [줌](https://medium.com/zoom-developer-blog)
+- [큐오라](https://quoraengineering.quora.com/)
+- [클라우데라](https://blog.cloudera.com/)
+- [트위터](https://blog.twitter.com/engineering/en_us)
+- [페이팔](https://medium.com/paypal-tech)
+- [핀터레스트](https://medium.com/pinterest-engineering)
+- [하이스케일러빌리티](https://highscalability.com/)
 
 ## 시스템 설계 문제 모음
 
