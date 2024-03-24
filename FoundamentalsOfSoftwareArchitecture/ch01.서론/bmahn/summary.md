@@ -32,3 +32,6 @@
 ## 소프트웨어 아키텍처 법칙
 * 모든 것은 다 트레이드오프다 (sw architecture 1 법칙)
 * '어떻게'보다 '왜'가 더 중요하다 (sw architecture 2 법칙)
+
+## 추가사항
+* https://roadmap.sh/software-architect
